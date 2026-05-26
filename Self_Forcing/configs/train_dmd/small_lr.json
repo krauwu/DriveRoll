@@ -1,0 +1,6 @@
+{
+    "optimizer": {
+        "_class_name": "torch.optim.AdamW",
+        "lr": 1e-07
+    }
+}

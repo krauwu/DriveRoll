@@ -1,0 +1,34 @@
+# UniAD evaluation task configuration
+# Bench scheduler configuration
+
+# UniAD project path
+uniad_root: <path-to-local-resource>
+
+task:
+  name: uniad_eval
+
+  uniad_eval:
+    # UniAD config file path (keep .py format)
+    uniad_config: ${uniad_root}/adzoo/uniad/configs/stage2_e2e/base_e2e.py
+
+    # Checkpoint file path
+    checkpoint_path: ${uniad_root}/ckpts/uniad_base_e2e.pth
+
+    # Input data
+    pkl_dir: <path-to-local-resource>
+    pseudo_root: <path-to-local-resource>
+
+    # Evaluation modules (aligned with UniAD config: det, map, track, motion, occ, planning)
+    eval_mod:
+      - det
+      - map
+      - track
+      - motion
+
+    # Distributed configuration
+    launcher: pytorch  # options: none (single-GPU), pytorch (multi-GPU distributed)
+    gpu_ids: [0]  # List of GPUs to use
+
+    # Output configuration
+    output:
+      root_dir: <path-to-local-resource>

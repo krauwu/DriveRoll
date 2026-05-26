@@ -1,0 +1,156 @@
+{
+    "dmd_param": {
+        "real_guidance_scale": 3.0,
+        "preview_sequence": {
+            "segment_len": 15,
+            "chunk_size": 12
+        },
+        "train_sequence": {
+            "segment_len": 15,
+            "chunk_size": 4,
+            "max_generated_iteration": 3,
+            "reference_frame_count": 3
+        }
+    },
+    "training_dataset": {
+        "_class_name": "dwm.datasets.common.DatasetAdapter",
+        "base_dataset": {
+            "_class_name": "torch.utils.data.ConcatDataset",
+            "datasets": [
+                {
+                    "_class_name": "dwm.datasets.nuscenes.MotionDataset",
+                    "fs": {
+                        "_class_name": "dwm.common.get_state",
+                        "key": "nuscenes_fs"
+                    },
+                    "dataset_name": "interp_12Hz_trainval",
+                    "split": "train",
+                    "sequence_length": 60,
+                    "fps_stride_tuples": [
+                        [
+                            6,
+                            3
+                        ]
+                    ],
+                    "sensor_channels": [
+                        "CAM_FRONT_LEFT",
+                        "CAM_FRONT",
+                        "CAM_FRONT_RIGHT",
+                        "CAM_BACK_RIGHT",
+                        "CAM_BACK",
+                        "CAM_BACK_LEFT"
+                    ],
+                    "keyframe_only": true,
+                    "enable_camera_transforms": true,
+                    "enable_ego_transforms": true,
+                    "cache_root": "../data/cache/nuscenes",
+                    "_3dbox_image_settings": {},
+                    "hdmap_image_settings": {},
+                    "image_description_settings": {
+                        "path": "../data/annotations/nuscenes_v1.0-trainval_caption_v2_train.json",
+                        "time_list_dict_path": "../data/annotations/nuscenes_v1.0-trainval_caption_v2_times_train.json",
+                        "align_keys": [
+                            "time",
+                            "weather"
+                        ],
+                        "reorder_keys": true,
+                        "drop_rates": {
+                            "environment": 0.04,
+                            "objects": 0.08,
+                            "image_description": 0.16
+                        }
+                    },
+                    "stub_key_data_dict": {
+                        "crossview_mask": [
+                            "content",
+                            {
+                                "_class_name": "torch.tensor",
+                                "data": {
+                                    "_class_name": "json.loads",
+                                    "s": "[[1,1,0,0,0,1],[1,1,1,0,0,0],[0,1,1,1,0,0],[0,0,1,1,1,0],[0,0,0,1,1,1],[1,0,0,0,1,1]]"
+                                },
+                                "dtype": {
+                                    "_class_name": "get_class",
+                                    "class_name": "torch.bool"
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "transform_list": [
+            {
+                "old_key": "images",
+                "new_key": "vae_images",
+                "transform": {
+                    "_class_name": "torchvision.transforms.Compose",
+                    "transforms": [
+                        {
+                            "_class_name": "torchvision.transforms.Resize",
+                            "size": [
+                                256,
+                                448
+                            ]
+                        },
+                        {
+                            "_class_name": "torchvision.transforms.ToTensor"
+                        }
+                    ]
+                }
+            },
+            {
+                "old_key": "3dbox_images",
+                "new_key": "3dbox_images",
+                "transform": {
+                    "_class_name": "torchvision.transforms.Compose",
+                    "transforms": [
+                        {
+                            "_class_name": "torchvision.transforms.Resize",
+                            "size": [
+                                256,
+                                448
+                            ]
+                        },
+                        {
+                            "_class_name": "torchvision.transforms.ToTensor"
+                        }
+                    ]
+                }
+            },
+            {
+                "old_key": "hdmap_images",
+                "new_key": "hdmap_images",
+                "transform": {
+                    "_class_name": "torchvision.transforms.Compose",
+                    "transforms": [
+                        {
+                            "_class_name": "torchvision.transforms.Resize",
+                            "size": [
+                                256,
+                                448
+                            ]
+                        },
+                        {
+                            "_class_name": "torchvision.transforms.ToTensor"
+                        }
+                    ]
+                }
+            },
+            {
+                "old_key": "image_description",
+                "new_key": "clip_text",
+                "transform": {
+                    "_class_name": "dwm.datasets.common.Copy"
+                },
+                "stack": false
+            }
+        ],
+        "pop_list": [
+            "images",
+            "lidar_points",
+            "lidar_transforms",
+            "image_description"
+        ]
+    }
+}

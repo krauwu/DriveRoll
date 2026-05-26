@@ -1,0 +1,27 @@
+# nuPlan interface path configuration.
+# Update these paths according to your local environment before running.
+
+nuplan_data_store: "local"
+nuplan_data_root: "<path-to-nuplan-root>"
+nuplan_maps_root: "<path-to-nuplan-root>/maps"
+nuplan_db_files: "<path-to-nuplan-root>/nuplan-v1.1/splits/mini/<log-name>.db"
+nuplan_map_version: "nuplan-maps-v1.0"
+nuplan_exp_root: "./outputs/sim_log"
+blob_path: "<path-to-nuplan-root>/nuplan-v1.1/sensor_blobs"
+ray_temp_dir: "./ray_tmp"
+
+# The simulation config directory included in this interface package.
+sim_cfg_path: "sim_tools/configs/simulation"
+
+# Path to the DWM source tree. For a repository layout with DWM/ and nuplan/ as siblings,
+# run from the nuplan directory and keep this relative path.
+dwm_path: "../DWM/src"
+
+# Generation config used by the nuPlan interface.
+gen_cfg: "sim_tools/configs/nuplan.json"
+
+gen_img_log: "./gen_img"
+
+vad:
+  config_file: "<path-to-vad-config.py>"
+  checkpoint: "<path-to-vad-checkpoint.pth>"

@@ -1,0 +1,66 @@
+dataset:
+  name: nuscenes
+  dataroot: <path-to-local-resource>
+  version: interp_12Hz_trainval
+  can_bus_root_path: <path-to-local-resource>
+  camera_names:
+    - CAM_FRONT_LEFT
+    - CAM_FRONT
+    - CAM_FRONT_RIGHT
+    - CAM_BACK_RIGHT
+    - CAM_BACK
+    - CAM_BACK_LEFT
+
+input:
+  video_dir: <path-to-local-resource>
+  preview_npy_dir: <path-to-local-resource>
+  token_dir: <path-to-local-resource>
+  num_frames: 36
+
+window:
+  size: 10
+  stride: 10
+
+task:
+  name: uniad_group_pkls
+
+#  uniad_window_pkls:
+#    pseudo_nuscenes_root: <path-to-local-resource>
+#    max_sweeps: 0
+#    future_steps: 16
+#    future_step_time: 0.5
+#    original_token_len: 32
+#    output:
+#      root_dir: <path-to-local-resource>
+##      root_dir: <path-to-local-resource>
+#      subdir: val_window_pkls
+#      prefix: val
+
+  uniad_group_pkls:
+#    pseudo_nuscenes_root: <path-to-local-resource>
+    pseudo_nuscenes_root: <path-to-local-resource>
+    expected_groups: [aggressive_dense,aggressive_sparse, idle, turning]
+    max_sweeps: 0
+    future_steps: 16
+    future_step_time: 0.5
+    original_token_len: 32
+    output:
+      root_dir: <path-to-local-resource>
+      subdir: val_group_pkls
+      prefix: val
+
+  # video_fid_fvd:
+  #   out_csv: <path-to-local-resource>
+  #   i3d_ckpt: /path/to/i3d_pretrained_400.pt
+  #   device: cuda
+  #   rows: 4
+  #   cols: 6
+  #   gt_row: 0
+  #   gen_row: 3
+  #   start_frame: 16
+  #   window_len: 15
+  #   stride: 1
+  #   save_debug: true
+
+  # video_reconstruction:
+  #   output_dir: /tmp/video_reconstruction
